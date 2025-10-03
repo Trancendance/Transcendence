@@ -1,0 +1,31 @@
+services:
+  db_server:
+    build:
+      context: .
+      dockerfile: ./db_service/Dockerfile
+    container_name: mytra_db_server
+    volumes:
+      - ./data:/usr/src/app/data
+    ports:
+      - "3000:3000"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mytra_back
+    working_dir: /usr/src/app
+    volumes:
+      - ./data:/usr/src/app/data
+    ports:
+      - "8080:8080"
+      
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mytra_front
+    working_dir: /usr/src/app
+    ports:
+      - "8081:8081"
+
