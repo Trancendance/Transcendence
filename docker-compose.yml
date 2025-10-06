@@ -1,9 +1,9 @@
 services:
-  db_server:
+  db:
     build:
       context: .
-      dockerfile: ./db_service/Dockerfile
-    container_name: mytra_db_server
+      dockerfile: ./database/Dockerfile
+    container_name: transcendence_db
     volumes:
       - ./data:/usr/src/app/data
     ports:
@@ -13,18 +13,19 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: mytra_back
+    container_name: transcendence_backend
     working_dir: /usr/src/app
     volumes:
       - ./data:/usr/src/app/data
     ports:
       - "8080:8080"
+      - "8082:8082"
       
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: mytra_front
+    container_name: transcendence_frontend
     working_dir: /usr/src/app
     ports:
       - "8081:8081"
