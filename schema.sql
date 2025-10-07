@@ -1,17 +1,17 @@
-CREATE TABLE player (
+CREATE TABLE IF NOT EXISTS player (
     player_id INTEGER PRIMARY KEY AUTOINCREMENT,
     alias TEXT NOT NULL UNIQUE,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     password_hash TEXT NOT NULL,
-    image_path TEXT NOT NULL DEFAULT 'url/a/imagen/por/defecto.png',
+    image_path TEXT NOT NULL DEFAULT '../../public/assets/img/default.png',
     creation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status INTEGER NOT NULL DEFAULT 0,
     active INTEGER NOT NULL DEFAULT 1
 );
 
-CREATE TABLE game (
+CREATE TABLE IF NOT EXISTS game (
     game_id INTEGER PRIMARY KEY AUTOINCREMENT,
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     duration INTEGER NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE game (
     FOREIGN KEY (tournament_id) REFERENCES tournament(tournament_id)
 );
 
-CREATE TABLE tournament (
+CREATE TABLE IF NOT EXISTS tournament (
     tournament_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
     start_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -43,7 +43,7 @@ CREATE TABLE tournament (
     FOREIGN KEY (winner_id) REFERENCES player(player_id)
 );
 
-CREATE TABLE tournament_participants (
+CREATE TABLE IF NOT EXISTS tournament_participants (
     tournament_id INTEGER NOT NULL,
     player_id INTEGER NOT NULL,
     final_score INTEGER,
@@ -53,7 +53,7 @@ CREATE TABLE tournament_participants (
     PRIMARY KEY (tournament_id, player_id)
 );
 
-CREATE TABLE friends (
+CREATE TABLE IF NOT EXISTS friends (
     player1_id INTEGER NOT NULL,
     player2_id INTEGER NOT NULL,
     request_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -63,12 +63,12 @@ CREATE TABLE friends (
     PRIMARY KEY (player1_id, player2_id)
 );
 
-CREATE TABLE chat (
+CREATE TABLE IF NOT EXISTS chat (
     chat_id INTEGER PRIMARY KEY AUTOINCREMENT,
     is_group INTEGER NOT NULL DEFAULT 0
 );
 
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
     message_id INTEGER PRIMARY KEY AUTOINCREMENT,
     chat_id INTEGER NOT NULL,
     sender_id INTEGER NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE messages (
     FOREIGN KEY (sender_id) REFERENCES player(player_id)
 );
 
-CREATE TABLE blocked_players (
+CREATE TABLE IF NOT EXISTS blocked_players (
     blocker_id INTEGER NOT NULL,
     blocked_id INTEGER NOT NULL,
     block_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -87,13 +87,13 @@ CREATE TABLE blocked_players (
     PRIMARY KEY (blocker_id, blocked_id)
 );
 
-CREATE TABLE ia_configuration (
+CREATE TABLE IF NOT EXISTS ia_configuration (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     parameter_name TEXT NOT NULL UNIQUE,
     parameter_value TEXT NOT NULL
 );
 
-CREATE TABLE game_events (
+CREATE TABLE IF NOT EXISTS game_events (
     event_id INTEGER PRIMARY KEY AUTOINCREMENT,
     game_id INTEGER NOT NULL,
     timestamp INTEGER NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE game_events (
     FOREIGN KEY (game_id) REFERENCES game(game_id)
 );
 
-CREATE TABLE player_configuration (
+CREATE TABLE IF NOT EXISTS player_configuration (
     player_id INTEGER PRIMARY KEY,
     paddle_color TEXT NOT NULL DEFAULT '#00E0FF',
     board_color TEXT NOT NULL DEFAULT '#0d0c1d',
@@ -116,7 +116,7 @@ CREATE TABLE player_configuration (
     FOREIGN KEY (player_id) REFERENCES player(player_id)
 );
 
-CREATE TABLE tournament_configuration (
+CREATE TABLE IF NOT EXISTS tournament_configuration (
     config_id INTEGER PRIMARY KEY AUTOINCREMENT,
     tournament_id INTEGER NOT NULL UNIQUE,
     victory_condition TEXT NOT NULL DEFAULT 'score',
@@ -128,7 +128,7 @@ CREATE TABLE tournament_configuration (
     FOREIGN KEY (tournament_id) REFERENCES tournament(tournament_id)
 );
 
-CREATE TABLE audit_log (
+CREATE TABLE IF NOT EXISTS audit_log (
     log_id INTEGER PRIMARY KEY AUTOINCREMENT,
     table_name TEXT NOT NULL,
     record_id INTEGER NOT NULL,
