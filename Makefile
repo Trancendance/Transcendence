@@ -2,6 +2,16 @@ CONTAINER_BACKEND=transcendence_backend
 CONTAINER_FRONTEND=transcendence_frontend
 CONTAINER_DB=transcendence_db
 
+
+# -------------------------
+# Comandos principales
+# -------------------------
+up: build
+	docker-compose up --detach
+
+logs:
+	docker-compose logs -f
+
 # Crear carpetas necesarias
 create-dirs:
 	mkdir -p data
@@ -16,16 +26,7 @@ generate-certs: create-dirs
 # Construir con docker-compose
 build: generate-certs
 	docker-compose build
-
-# -------------------------
-# Comandos principales
-# -------------------------
-up: build
-	docker-compose up --detach
-
-logs:
-	docker-compose logs -f
-
+	
 shell-back:
 	docker exec -it $(CONTAINER_BACKEND) /bin/sh
 
