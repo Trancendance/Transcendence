@@ -1,0 +1,9 @@
+[submodule "backend"]
+    path = backend
+    url = git@github.com:Trancendance/backend.git
+[submodule "frontend"]
+    path = frontend
+    url = git@github.com:Trancendance/frontend.git
+[submodule "database"]
+    path = database
+    url = git@github.com:Trancendance/database.git
