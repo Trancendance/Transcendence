@@ -59,7 +59,7 @@ get_current:
 	fi
 
 pull: get_current
-	echo "Actualizando Todos Los Submódulos..."; 
+	@echo "Actualizando Todos Los Submódulos..."; 
 	@git submodule update --remote --merge; 
 
 pull-backend:
