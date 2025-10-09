@@ -24,13 +24,13 @@ create-dirs:
 	@mkdir -p frontend/certs
 
 # Generar certificados
-generate-certs: create-dirs
+generate-certs:
 	echo "Generando Certificados"
 	@cd backend && ./generate-certificate.sh
 	@cd frontend && ./generate-certificate.sh
 
 # Construir con docker-compose
-build: generate-ca generate-certs
+build: create-dirs generate-ca generate-certs
 	@docker-compose build
 	
 shell-back:
