@@ -12,6 +12,11 @@ up: get_current build
 logs:
 	@docker-compose logs -f
 
+# Generar la CA local (fer-ho UNA vegada)
+generate-ca:
+	chmod +x backend/scripts/generate-ca.sh
+	cd backend/scripts && ./generate-ca.sh
+
 # Crear carpetas necesarias
 create-dirs:
 	@mkdir -p data
@@ -25,7 +30,7 @@ generate-certs: create-dirs
 	@cd frontend && ./generate-certificate.sh
 
 # Construir con docker-compose
-build: generate-certs
+build: generate-ca generate-certs
 	@docker-compose build
 	
 shell-back:
@@ -42,6 +47,12 @@ down:
 
 clean: down
 	@docker system prune -f
+
+fclean: clean
+	rm -rf rootCA
+	rm -rf backend/certs
+	rm -rf frontend/certs
+	rm -rf data
 
 re: down up
 
