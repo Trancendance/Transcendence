@@ -1,0 +1,30 @@
+NO PREGUNTI ACCEPT RISK CERTIFICAT ROOTCA
+make generate-ca
+
+Possar certificat rootCA.crt al firefox about:preferences#privacy o google chrome://certificate-manager/localcerts/usercerts
+
+make
+
+!!!!!!!!!!!!! FUNCIONA EN GOOGLE I NO A FIREFOX NS PQ !!!!!!!!!!!!!!
+
+QUE ES GUARDI/CANVI EN EL MOMENT
+
+comenta frontend i backend en el docker-compose
+
+./ -> make
+
+./backend -> npm install && npm run dev
+
+potse veeure en https://localhost:3001/health
+
+MIRAR database
+docker exec -it transcendence_db /bin/sh o make shell-db
+
+# Obrir la base de dades
+sqlite3 data/transcendence.db
+
+# Dins de sqlite3:
+.tables                    # Veure totes les taules
+.schema users              # Veure estructura taula users
+SELECT * FROM users;       # Veure contingut taula users
+.quit                      # Sortir de sqlite3
