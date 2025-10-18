@@ -7,13 +7,13 @@ make
 
 !!!!!!!!!!!!! FUNCIONA EN GOOGLE I NO A FIREFOX NS PQ !!!!!!!!!!!!!!
 
-QUE ES GUARDI/CANVI EN EL MOMENT
+QUE ES GUARDI/CANVI EN EL MOMENT AMB POSTMAN sense fer compilar amb docker?? 
 
 comenta frontend i backend en el docker-compose
 
-./ -> make
+./ -> make generate-certs
 
-./backend -> npm install && npm run dev
+./backend -> npm install && npm run build && npm run dev:watch
 
 potse veeure en https://localhost:3001/health
 

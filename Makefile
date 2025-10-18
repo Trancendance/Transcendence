@@ -26,11 +26,11 @@ create-dirs:
 # Generar certificados
 generate-certs:
 	echo "Generando Certificados"
-	@cd backend && ./generate-certificate.sh
+	@cd backend/scripts && ./generate-certificate.sh
 	@cd frontend && ./generate-certificate.sh
 
 # Construir con docker-compose
-build: create-dirs generate-ca generate-certs
+build: create-dirs generate-certs
 	@docker-compose build
 	
 shell-back:
