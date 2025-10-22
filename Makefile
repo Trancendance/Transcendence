@@ -12,6 +12,20 @@ up: get_current build
 logs:
 	@docker-compose logs -f
 
+ca_check:
+	@if [ -f rootCA/rootCA.key ] && [ -f rootCA/rootCA.crt ] \
+		&& [ -f backend/certs/rootCA.key ] && [ -f backend/certs/rootCA.crt ] \
+		&& [ -f frontend/certs/rootCA.crt ]; then \
+		echo "✅ CA Correctly Placed"; \
+	else \
+		echo "❌ Missing CA"; \
+		rm -rf rootCA; \
+		rm -rf data/*; \
+		rm -rf backend/certs/*; \
+		rm -rf frontend/certs/*; \
+		make generate-ca; \
+	fi
+
 # Generar la CA local (fer-ho UNA vegada)
 generate-ca:
 	chmod +x backend/scripts/generate-ca.sh
@@ -30,7 +44,7 @@ generate-certs:
 	@cd frontend && ./generate-certificate.sh
 
 # Construir con docker-compose
-build: create-dirs generate-certs
+build: create-dirs ca_check generate-certs
 	@docker-compose build
 	
 shell-back:
