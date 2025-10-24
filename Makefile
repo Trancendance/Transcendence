@@ -16,9 +16,9 @@ ca_check:
 	@if [ -f rootCA/rootCA.key ] && [ -f rootCA/rootCA.crt ] \
 		&& [ -f backend/certs/rootCA.key ] && [ -f backend/certs/rootCA.crt ] \
 		&& [ -f frontend/certs/rootCA.crt ]; then \
-		echo "✅ CA Correctly Placed"; \
+		echo "CA Correctly Placed"; \
 	else \
-		echo "❌ Missing CA"; \
+		echo "Missing CA"; \
 		rm -rf rootCA; \
 		rm -rf data/*; \
 		rm -rf backend/certs/*; \
@@ -39,7 +39,7 @@ create-dirs:
 
 # Generar certificados
 generate-certs:
-	echo "Generando Certificados"
+	echo "Generating certificates"
 	@cd backend/scripts && ./generate-certificate.sh
 	@cd frontend && ./generate-certificate.sh
 
@@ -76,34 +76,34 @@ re: down up
 
 get_current:
 	@if [ -z "$$(ls -A backend 2>/dev/null)" ] && [ -z "$$(ls -A frontend 2>/dev/null)" ] && [ -z "$$(ls -A database 2>/dev/null)" ]; then \
-		echo "Submódulos Vacíos, Inicializandolos A Su Última Versión..."; \
+		echo "Empty submodules, Initializing them to their latest version..."; \
 		git submodule update --init --recursive; \
 		git submodule update --remote --merge --recursive; \
 	else \
-		echo "Submodulos Ya Inicializados"; \
+		echo "Submodules already initialized"; \
 	fi
 
 pull: get_current
-	@echo "Actualizando Todos Los Submódulos..."; 
+	@echo "Updating all submodules..."; 
 	@git submodule update --remote --merge; 
 
 pull-backend:
 	@if [ -z "$$(ls -A backend 2>/dev/null)" ]; then \
-		echo "Actualizando submódulo [backend]..."; \
+		echo "Updating submodule [backend]..."; \
 		git submodule update --init --recursive backend; \
 	fi
 	@cd backend && git pull origin $$(git rev-parse --abbrev-ref HEAD); \
 
 pull-frontend:
 	@if [ -z "$$(ls -A frontend 2>/dev/null)" ]; then \
-		echo "Actualizando submódulo [frontend]..."; \
+		echo "Updating submodule [frontend]..."; \
 		git submodule update --init --recursive frontend; \
 	fi
 	@cd frontend && git pull origin $$(git rev-parse --abbrev-ref HEAD); \
 
 pull-database:
 	@if [ -z "$$(ls -A database 2>/dev/null)" ]; then \
-		echo "Actualizando submódulo [database]..."; \
+		echo "Updating submodule [database]..."; \
 		git submodule update --init --recursive database; \
 	fi
 	@cd database && git pull origin $$(git rev-parse --abbrev-ref HEAD);
