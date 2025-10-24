@@ -5,7 +5,6 @@ Possar certificat rootCA.crt al firefox about:preferences#privacy o google chrom
 
 make
 
-!!!!!!!!!!!!! FUNCIONA EN GOOGLE I NO A FIREFOX NS PQ !!!!!!!!!!!!!!
 
 QUE ES GUARDI/CANVI EN EL MOMENT
 
