@@ -18,6 +18,7 @@ services:
     environment:
       - DB_URL=https://transcendence_db:3000
       - ALLOW_SELF_SIGNED=true
+      - NODE_ENV=development
     volumes:
       - ./data:/usr/src/app/data
     ports:
