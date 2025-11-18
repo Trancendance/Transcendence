@@ -72,6 +72,9 @@ shell-back:
 shell-front:
 	@docker exec -it $(CONTAINER_FRONTEND) /bin/sh
 
+shell-front-reload:
+	@docker exec -it $(FRONTEND) sh -c "npm run dev"
+
 shell-db:
 	@docker exec -it $(CONTAINER_DB) /bin/sh
 
