@@ -20,9 +20,11 @@ services:
       - ALLOW_SELF_SIGNED=true
     volumes:
       - ./data:/usr/src/app/data
+      - ./backend:/usr/src/app
     ports:
       - "8080:8080"
       - "8082:8082"
+      - "8083:8083"
 
   frontend:
     build:
@@ -32,3 +34,7 @@ services:
     working_dir: /usr/src/app
     ports:
       - "8081:8081"
+      - "5173:5173"
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
