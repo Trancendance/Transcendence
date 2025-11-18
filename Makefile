@@ -9,8 +9,18 @@ CONTAINER_DB=transcendence_db
 up: get_current build
 	@docker-compose up --detach
 
+copy-certs:
+	@cp frontend/certs/rootCA.crt ~/Desktop/
+
 logs:
 	@docker-compose logs -f
+
+FE_logs:
+	@docker-compose logs -f frontend	
+BE_logs:
+	@docker-compose logs -f backend
+DB_logs:
+	@docker-compose logs -f database
 
 ca_check:
 	@if [ -f rootCA/rootCA.key ] && [ -f rootCA/rootCA.crt ] \
@@ -46,6 +56,15 @@ generate-certs:
 # Construir con docker-compose
 build: create-dirs ca_check generate-certs
 	@docker-compose build
+
+build-back:
+	@docker-compose build backend
+
+build-front:
+	@docker-compose build frontend
+
+build-db:
+	@docker-compose build database
 	
 shell-back:
 	@docker exec -it $(CONTAINER_BACKEND) /bin/sh
