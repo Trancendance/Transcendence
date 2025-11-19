@@ -12,7 +12,7 @@ up: get_current build
 copy-certs:
 	@cp frontend/certs/rootCA.crt ~/Desktop/
 
-logs:
+logs:	
 	@docker-compose logs -f
 
 FE_logs:
@@ -54,8 +54,11 @@ generate-certs:
 	@cd frontend && ./generate-certificate.sh
 
 # Construir con docker-compose
-build: create-dirs ca_check generate-certs
+build: create-dirs ca_check generate-certs build-base
 	@docker-compose build
+
+build-base:
+	@docker build -t transcendence-base -f Dockerfile.base .
 
 build-back:
 	@docker-compose build backend

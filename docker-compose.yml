@@ -6,6 +6,7 @@ services:
     container_name: transcendence_db
     volumes:
       - ./data:/usr/src/app/data
+      - node_modules_be:/usr/src/app/node_modules
     ports:
       - "3000:3000"
 
