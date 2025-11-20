@@ -23,7 +23,6 @@ services:
       - ./backend:/usr/src/app
       - node_modules_be:/usr/src/app/node_modules
       - ./data:/usr/src/app/data
-      - ./backend:/usr/src/app
     ports:
       - "8080:8080"
       - "8082:8082"
