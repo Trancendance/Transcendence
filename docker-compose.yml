@@ -26,7 +26,6 @@ services:
     ports:
       - "8080:8080"
       - "8082:8082"
-      - "8083:8083"
 
   frontend:
     build:
