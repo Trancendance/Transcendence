@@ -104,40 +104,43 @@ re: fclean up
 # ------------------------------------------
 # REPO MANAGEMENT 
 # ------------------------------------------
+# ------------------------------------------
+# REPO MANAGEMENT (Lazy Init)
+# ------------------------------------------
 
-# Esta regla inicializa los repos y los fuerza a estar en la rama 'main'
-# Si ya están clonados, los corrige para que dejen de estar en "detached HEAD"
 get_current:
-	@echo "Checking repositories configuration..."
-	@git submodule update --init --recursive
-	@# Iteramos por cada submódulo para asegurarnos de que está en la rama main
-	@git submodule foreach -q 'branch="main"; \
-		echo "Configuring $$name on branch $$branch..."; \
-		git fetch origin --quiet; \
-		if ! git show-ref --verify --quiet refs/heads/$$branch; then \
-			git checkout -b $$branch origin/$$branch 2>/dev/null || git checkout $$branch; \
-		else \
-			git checkout $$branch 2>/dev/null; \
-		fi; \
-		git pull origin $$branch --ff-only || echo "Warning: Could not pull $$name"'
+	@if [ ! -f backend/.git ] && [ ! -d backend/.git ]; then \
+		echo ">>> Backend missing or empty. Initializing..."; \
+		$(MAKE) pull-backend; \
+	fi
+	@if [ ! -f frontend/.git ] && [ ! -d frontend/.git ]; then \
+		echo ">>> Frontend missing or empty. Initializing..."; \
+		$(MAKE) pull-frontend; \
+	fi
+	@if [ ! -f database/.git ] && [ ! -d database/.git ]; then \
+		echo ">>> Database missing or empty. Initializing..."; \
+		$(MAKE) pull-database; \
+	fi
+	@echo ">>> Submodules verified."
 
-# Actualiza todos los repos a la última versión de su rama (git pull real)
+# Actualiza todos los repos a la última versión de 'main'
+# Primero asegura que existan (get_current) y luego hace pull
 pull: get_current
 	@echo "Pulling latest changes for all modules..."
 	@git submodule foreach 'git pull origin main'
 
 pull-backend:
-	@echo "Updating [backend] to latest main..."
+	@echo "Updating [backend]..."
 	@git submodule update --init backend
 	@cd backend && git fetch origin && (git checkout main 2>/dev/null || git checkout -b main origin/main) && git pull origin main
 
 pull-frontend:
-	@echo "Updating [frontend] to latest main..."
+	@echo "Updating [frontend]..."
 	@git submodule update --init frontend
 	@cd frontend && git fetch origin && (git checkout main 2>/dev/null || git checkout -b main origin/main) && git pull origin main
 
 pull-database:
-	@echo "Updating [database] to latest main..."
+	@echo "Updating [database]..."
 	@git submodule update --init database
 	@cd database && git fetch origin && (git checkout main 2>/dev/null || git checkout -b main origin/main) && git pull origin main
 
