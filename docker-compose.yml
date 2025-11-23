@@ -24,7 +24,7 @@ services:
       - node_modules_be:/usr/src/app/node_modules
       - ./data:/usr/src/app/data
     ports:
-      - "8080:8080"
+      - "8083:8083"
       - "8082:8082"
 
   frontend:
