@@ -1,14 +1,11 @@
 services:
+  # db debería ser solo para almacenamiento, NO ejecutar servidores
   db:
-    build:
-      context: .
-      dockerfile: ./database/Dockerfile
+    image: alpine:latest  # Usa una imagen mínima
     container_name: transcendence_db
     volumes:
       - ./data:/usr/src/app/data
-      - node_modules_db:/usr/src/app/node_modules
-    ports:
-      - "3000:3000"
+    command: ["sleep", "infinity"]  # Solo mantiene el contenedor vivo
 
   backend:
     build:
@@ -17,32 +14,39 @@ services:
     container_name: transcendence_backend
     working_dir: /usr/src/app
     environment:
-      - DB_URL=https://transcendence_db:3000
+      - DB_PATH=/usr/src/app/data/transcendence.db  # USA DB_PATH, no DB_URL
       - ALLOW_SELF_SIGNED=true
+      - PORT=3000
     volumes:
       - ./backend:/usr/src/app
       - node_modules_be:/usr/src/app/node_modules
-      - ./data:/usr/src/app/data
+      - ./data:/usr/src/app/data  # Comparte el volumen con db
     ports:
+      - "3000:3000"
       - "8083:8083"
       - "8082:8082"
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: transcendence_frontend
-    working_dir: /usr/src/app
-    volumes:
-      - ./frontend:/usr/src/app
-      - node_modules_fe:/usr/src/app/node_modules
-    ports:
-      - "5173:5173"
-      - "8081:8081"
-    environment:
-      - HOST=0.0.0.0
+    depends_on:
+      - db
 
 volumes:
-  node_modules_fe:
   node_modules_be:
-  node_modules_db:
+
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: transcendence_frontend
+  #   working_dir: /usr/src/app
+  #   volumes:
+  #     - ./frontend:/usr/src/app
+  #     - node_modules_fe:/usr/src/app/node_modules
+  #   ports:
+  #     - "5173:5173"
+  #     - "8081:8081"
+  #   environment:
+  #     - HOST=0.0.0.0
+
+# volumes:
+  # node_modules_fe:
+  # node_modules_be:
+  # node_modules_db:
