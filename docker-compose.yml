@@ -20,7 +20,6 @@ services:
       - ALLOW_SELF_SIGNED=true
       - PORT=3000
     volumes:
-      - ./backend:/usr/src/app
       - node_modules_be:/usr/src/app/node_modules
       - ./data:/usr/src/app/data  # Comparte el volumen con db
     ports:
